@@ -1,5 +1,5 @@
-require_relative 'classes/item'
-require './classes/date'
+require_relative 'item'
+require 'date'
 
 class Book < Item
   attr_accessor :publisher, :cover_state
