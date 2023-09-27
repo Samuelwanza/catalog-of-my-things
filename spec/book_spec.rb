@@ -1,7 +1,6 @@
 require 'rspec'
 require_relative '../classes/book'
 
-
 describe Book do
   before :each do
     @book = Book.new('1-2-2023', 'publisher A', 'bad')
