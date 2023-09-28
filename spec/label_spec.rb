@@ -15,8 +15,8 @@ describe Label do
       expect(@label.title).to eq('Love of my life')
     end
 
-    it 'should have item as nil' do
-      expect(@label.item).to be_nil
+    it 'should have items as an empty array' do
+      expect(@label.items).to be_empty
     end
   end
 end

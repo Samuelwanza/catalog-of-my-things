@@ -1,5 +1,6 @@
 require_relative 'classes/book'
 require_relative 'classes/label'
+require_relative 'classes/book_info'
 
 class App
   attr_accessor :books, :labels
@@ -11,6 +12,7 @@ class App
 
   # Add book
   def create_book
+    book_data = BookData.new
     puts 'Create book'
     puts '-----------------'
     puts 'Add the publisher name'
@@ -20,10 +22,18 @@ class App
     puts 'The date of publishing dd/mm/yy'
     publish_date = gets.chomp
     book = Book.new(publish_date, publisher, cover_state)
+
+    # Add labels to the book
     label = add_label
     book.add_label(label)
+
+    # Associate book with label
+    label.add_item(book) # Add the book to the label
+
     @books << book
+    book_data.store_book(@books) # Store the entire @books array
     @labels << label
+    book_data.store_label(@labels) # Store the entire @labels array
     puts 'Book added successfully'
   end
 
@@ -40,8 +50,12 @@ class App
 
   # List all books
   def list_books
+    # Remove the line that clears @books
+    book_data = BookData.new
+    book_data.load_book(@books, @labels) # Load books from JSON
+
     puts 'List of Books in the library'
-    puts "\nBook list (#{@books.length}):"
+    puts "\nBook list(#{@books.length}):"
     puts '--------------'
     return puts 'No books added yet!' if @books.empty?
 
@@ -55,6 +69,10 @@ class App
 
   # List all labels
   def list_labels
+    # Remove the line that clears @labels
+    book_data = BookData.new
+    book_data.load_label(@labels) # Load labels from JSON
+
     puts 'List of Labels'
     puts '---------------'
     return puts 'No labels added yet!' if @labels.empty?
