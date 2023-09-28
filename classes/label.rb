@@ -1,18 +1,15 @@
 class Label
-  attr_accessor :title, :color, :item
+  attr_reader :id, :items
+  attr_accessor :title, :color
 
   def initialize(title, color)
+    @id = Random.rand(1..2000)
     @title = title
     @color = color
-    @item = nil # Initialize item as nil
+    @items = []
   end
 
   def add_item(item)
-    if item.is_a?(Item)
-      @item = item
-      item.add_label(self)
-    else
-      puts 'Invalid item type. Expected an instance of Item class.'
-    end
+    @items << item
   end
 end
