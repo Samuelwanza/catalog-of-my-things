@@ -3,7 +3,7 @@ require_relative '../classes/label'
 
 describe Label do
   before :each do
-    @label = Label.new('Love of my life')
+    @label = Label.new('Love of my life', nil)
   end
 
   context 'when label is created' do
@@ -11,8 +11,8 @@ describe Label do
       expect(@label).to be_instance_of Label
     end
 
-    it 'should have name as Love of my life' do
-      expect(@label.name).to eq('Love of my life')
+    it 'should have title as Love of my life' do
+      expect(@label.title).to eq('Love of my life')
     end
 
     it 'should have item as nil' do

@@ -1,8 +1,9 @@
 class Label
-  attr_accessor :name, :item
+  attr_accessor :title, :color, :item
 
-  def initialize(name)
-    @name = name
+  def initialize(title, color)
+    @title = title
+    @color = color
     @item = nil # Initialize item as nil
   end
 
