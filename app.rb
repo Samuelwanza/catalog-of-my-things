@@ -13,8 +13,8 @@ class App
     @books = []
     @labels = []
     @game_author_handler = GameAuthorHandler.new
-    @genres=[]
-    @musicalbums=[]
+    @genres = []
+    @musicalbums = []
   end
 
   # add book
@@ -50,6 +50,7 @@ class App
     color = gets.chomp
     Label.new(title, color)
   end
+
   def creategenre
     puts 'Enter genre type'
     genre = gets.chomp
@@ -57,6 +58,7 @@ class App
     @genres.push(newgenre)
     puts 'genre added successfully'
   end
+
   def createmusicalbum
     creategenre
     puts 'Enter publish date'
@@ -64,26 +66,29 @@ class App
     puts 'Is the music album on spotify [y/n]'
     on_spotify = gets.chomp
     on_spotify = on_spotify == 'y'
-    newmusicalbum = MusicAlbum.new(publishdate,on_spotify)
+    newmusicalbum = MusicAlbum.new(publishdate, on_spotify)
     @musicalbums.push(newmusicalbum)
     puts 'Music album created successfully'
   end
+
   def listmusicalbums
     if @musicalbums.empty?
-      puts "No music albums added"
+      puts 'No music albums added'
     else
-      @musicalbums.each_with_index do |musicalbum,index|
-        puts "(#{index}) Onspotify: #{musicalbum.on_spotify} publish date: #{musicalbum.publish_date} archived: #{musicalbum.archived} "
+      @musicalbums.each_with_index do |musicalbum, index|
+        puts "(#{index}) Onspotify: #{musicalbum.on_spotify} publish date: #{musicalbum.publish_date}
+        archived: #{musicalbum.archived} "
       end
     end
   end
+
   def listgenres
     if @genres.empty?
       puts 'No genres added yet'
     else
       @genres.each_with_index do |genre, index|
-      puts "(#{index})#{genre.name}"
-     end
+        puts "(#{index})#{genre.name}"
+      end
     end
   end
 
