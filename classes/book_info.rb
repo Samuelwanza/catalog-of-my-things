@@ -1,113 +1,67 @@
 require_relative 'book'
+require_relative 'label'
 require 'json'
 
 class BookData
+  # store the book into json file
   def store_book(books)
-    existing_books = load_existing_books
-
-    books_json = books.map do |book|
-      map_book_to_json(book, existing_books)
+    books_json = {
+      id: books.id,
+      publish_date: books.publish_date,
+      publisher: books.publisher,
+      cover_state: books.cover_state,
+      label_id: books.labels.first.id # Assuming a book can have multiple labels, change this accordingly
+    }
+    file_path = './data/books.json'
+    if File.size?(file_path)
+      books = JSON.parse(File.read(file_path))
+      books << books_json
+      File.write(file_path, JSON.pretty_generate(books))
+    else
+      File.write(file_path, JSON.pretty_generate([books_json]))
     end
-
-    save_books_to_file(existing_books.concat(books_json))
   end
 
+  # load the book data from JSON to book arr
+  def load_book(book_arr, _label_arr)
+    file_path = './data/books.json'
+    return unless File.exist?(file_path) && !File.empty?(file_path)
+
+    books = JSON.parse(File.read(file_path))
+    books.each do |book|
+      new_book = Book.new(book['publish_date'], book['publisher'], book['cover_state'])
+      book_arr << new_book
+    end
+  end
+
+  # store label data from array to Json file
   def store_label(labels)
-    existing_labels = load_existing_labels
-
-    label_json = labels.map do |label|
-      map_label_to_json(label, existing_labels)
-    end
-
-    save_labels_to_file(existing_labels.concat(label_json))
-  end
-
-  private
-
-  def load_existing_books
-    file_path = './book_data/books.json'
-    existing_books = []
-
-    if File.exist?(file_path)
-      begin
-        existing_books = JSON.parse(File.read(file_path))
-      rescue JSON::ParserError
-        existing_books = []
-      end
-    end
-
-    existing_books
-  end
-
-  def map_book_to_json(book, existing_books)
-    id_mapping = create_id_mapping(existing_books)
-
-    {
-      id: id_mapping[book.id] || (existing_books.length + 1),
-      publish_date: book.publish_date,
-      publisher: book.publisher,
-      cover_state: book.cover_state,
-      label_ids: book.labels.map(&:id)
+    label_json = {
+      id: labels.id,
+      title: labels.title,
+      color: labels.color,
+      items: labels.items.map(&:id)
     }
-  end
-
-  def create_id_mapping(existing_books)
-    id_mapping = {}
-    existing_books.each_with_index do |book, index|
-      id_mapping[book['id']] = index + 1
+    file_path = './data/labels.json'
+    if File.exist?(file_path) && !File.empty?(file_path)
+      labels = JSON.parse(File.read(file_path))
+      labels << label_json
+      File.write(file_path, JSON.pretty_generate(labels))
+    else
+      File.write(file_path, JSON.pretty_generate([label_json]))
     end
-    id_mapping
   end
 
-  def save_books_to_file(books)
-    file_path = './book_data/books.json'
-    File.write(file_path, JSON.pretty_generate(books))
-  end
+  # load the label json data back to label array
 
-  def load_existing_labels
-    file_path = './book_data/labels.json'
-    existing_labels = []
+  def load_label(label_arr)
+    file_path = './data/labels.json'
+    return unless File.size?(file_path)
 
-    if File.exist?(file_path)
-      begin
-        json_content = File.read(file_path)
-        existing_labels = JSON.parse(json_content) unless json_content.strip.empty?
-      rescue JSON::ParserError => e
-        puts "Error parsing JSON in #{file_path}: #{e.message}"
-      end
+    labels = JSON.parse(File.read(file_path))
+    labels.each do |label|
+      new_label = Label.new(label['title'], label['color'])
+      label_arr << new_label
     end
-
-    existing_labels
-  end
-
-  def map_label_to_json(label, existing_labels)
-    label_id_mapping = create_label_id_mapping(existing_labels)
-    item_id_mapping = {}
-
-    unique_item_ids = label.items.map do |item|
-      new_item_id = item_id_mapping[item.id] || (item_id_mapping.length + 1)
-      item_id_mapping[item.id] = new_item_id
-      new_item_id
-    end.uniq
-
-    {
-      id: label_id_mapping[label.id] || (existing_labels.length + 1),
-      title: label.title,
-      color: label.color,
-      items: unique_item_ids
-    }
-  end
-
-  def create_label_id_mapping(existing_labels)
-    label_id_mapping = {}
-    existing_labels.each_with_index do |label, index|
-      label_id_mapping[label['id']] = index + 1
-    end
-    label_id_mapping
-  end
-
-  def save_labels_to_file(labels)
-    file_path = './book_data/labels.json'
-    File.write(file_path, JSON.pretty_generate(labels))
   end
 end
