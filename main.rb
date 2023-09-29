@@ -23,7 +23,7 @@ loop do
   option = gets.chomp.to_i
   case option
   when 1
-  # your code here
+    app.booklist
   when 2
   # your code here
   when 3
@@ -31,11 +31,11 @@ loop do
   when 4
   # your code here
   when 5
-  # your code here
+    app.labellist
   when 6
     app.game_author_handler.list_all_authors
   when 7
-  # your code here
+    app.create_book
   when 8
   # your code here
   when 9
