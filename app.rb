@@ -3,6 +3,8 @@ require_relative 'classes/label'
 require_relative 'classes/book_info'
 require_relative 'classes/game'
 require_relative 'classes/author'
+require_relative 'classes/genre'
+require_relative 'classes/musicalbum'
 
 class App
   attr_accessor :books, :labels, :games, :authors, :game_author_handler
@@ -11,6 +13,8 @@ class App
     @books = []
     @labels = []
     @game_author_handler = GameAuthorHandler.new
+    @genres = []
+    @musicalbums = []
   end
 
   # add book
@@ -45,6 +49,47 @@ class App
     puts 'Assign a color to the label:'
     color = gets.chomp
     Label.new(title, color)
+  end
+
+  def creategenre
+    puts 'Enter genre type'
+    genre = gets.chomp
+    newgenre = Genre.new(genre)
+    @genres.push(newgenre)
+    puts 'genre added successfully'
+  end
+
+  def createmusicalbum
+    creategenre
+    puts 'Enter publish date'
+    publishdate = gets.chomp
+    puts 'Is the music album on spotify [y/n]'
+    on_spotify = gets.chomp
+    on_spotify = on_spotify == 'y'
+    newmusicalbum = MusicAlbum.new(publishdate, on_spotify)
+    @musicalbums.push(newmusicalbum)
+    puts 'Music album created successfully'
+  end
+
+  def listmusicalbums
+    if @musicalbums.empty?
+      puts 'No music albums added'
+    else
+      @musicalbums.each_with_index do |musicalbum, index|
+        puts "(#{index}) Onspotify: #{musicalbum.on_spotify} publish date: #{musicalbum.publish_date}
+        archived: #{musicalbum.archived} "
+      end
+    end
+  end
+
+  def listgenres
+    if @genres.empty?
+      puts 'No genres added yet'
+    else
+      @genres.each_with_index do |genre, index|
+        puts "(#{index})#{genre.name}"
+      end
+    end
   end
 
   # List all books

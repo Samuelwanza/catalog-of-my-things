@@ -25,11 +25,11 @@ loop do
   when 1
     app.booklist
   when 2
-  # your code here
+    app.listmusicalbums
   when 3
     app.game_author_handler.list_all_games
   when 4
-  # your code here
+    app.listgenres
   when 5
     app.labellist
   when 6
@@ -37,7 +37,7 @@ loop do
   when 7
     app.create_book
   when 8
-  # your code here
+    app.createmusicalbum
   when 9
     app.game_author_handler.add_game
   when 10
