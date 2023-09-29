@@ -21,5 +21,12 @@
     "publisher": "Publisher grey willo",
     "cover_state": "bad",
     "label_id": 1560
+  },
+  {
+    "id": "6d62d8ab-61a1-49e0-919d-94abdfa36c11",
+    "publish_date": "23/12/2003",
+    "publisher": "amos",
+    "cover_state": "bad",
+    "label_id": 1916
   }
 ]
