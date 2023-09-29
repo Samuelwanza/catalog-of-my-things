@@ -18,8 +18,6 @@ describe MusicAlbum do
     end
   end
 
-
-
   describe '#on_spotify' do
     it 'Checks whether the album is on spotify' do
       expect(@musicalbum.on_spotify).to eq(true)
