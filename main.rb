@@ -1,3 +1,5 @@
+require_relative 'app'
+
 def display_menu
   puts '------------------------------------------------------'
   puts 'Welcome to the Catalog of My Things!'
@@ -14,6 +16,7 @@ def display_menu
   puts '10 - Exit'
 end
 
+app = App.new
 loop do
   display_menu
   option = gets.chomp.to_i
@@ -23,19 +26,19 @@ loop do
   when 2
   # your code here
   when 3
-  # your code here
+    app.list_all_games
   when 4
   # your code here
   when 5
   # your code here
   when 6
-  # your code here
+    app.list_all_authors
   when 7
   # your code here
   when 8
   # your code here
   when 9
-  # your code here
+    app.add_game
   when 10
     puts 'Thanks for using Catalog of My Things app!'
     break
