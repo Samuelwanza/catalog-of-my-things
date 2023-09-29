@@ -13,7 +13,7 @@ class App
     @game_author_handler = GameAuthorHandler.new
   end
 
-  # Add book
+  # add book
   def create_book
     book_data = BookData.new
     puts 'Create book'
@@ -25,18 +25,14 @@ class App
     puts 'The date of publishing dd/mm/yy'
     publish_date = gets.chomp
     book = Book.new(publish_date, publisher, cover_state)
-
-    # Add labels to the book
     label = add_label
     book.add_label(label)
-
-    # Associate book with label
-    label.add_item(book) # Add the book to the label
-
     @books << book
-    book_data.store_book(@books) # Store the entire @books array
+    book_data.store_book(book)
+    @books.clear
     @labels << label
-    book_data.store_label(@labels) # Store the entire @labels array
+    book_data.store_label(label)
+    @labels.clear
     puts 'Book added successfully'
   end
 
@@ -52,12 +48,11 @@ class App
   end
 
   # List all books
-  def list_books
-    # Remove the line that clears @books
+  def booklist
+    @books.clear
     book_data = BookData.new
-    book_data.load_book(@books, @labels) # Load books from JSON
-
-    puts 'List of Books in the library'
+    book_data.load_book(@books, []) # Pass an empty array as the second argument
+    puts 'book list in library'
     puts "\nBook list(#{@books.length}):"
     puts '--------------'
     return puts 'No books added yet!' if @books.empty?
@@ -71,12 +66,11 @@ class App
   end
 
   # List all labels
-  def list_labels
-    # Remove the line that clears @labels
+  def labellist
+    @labels.clear
     book_data = BookData.new
-    book_data.load_label(@labels) # Load labels from JSON
-
-    puts 'List of Labels'
+    book_data.load_label(@labels)
+    puts "\nLabel list(#{@labels.length}):"
     puts '---------------'
     return puts 'No labels added yet!' if @labels.empty?
 
@@ -96,37 +90,6 @@ class App
     @game_author_handler.load_games
     @game_author_handler.load_authors
   end
-
-  # Display the main menu
-  # def display_menu
-  #   puts "\nPlease choose an option according to the numbers below:"
-  #   puts '1. List all books'
-  #   puts '2. List all labels'
-  #   puts '3. Add a book'
-  #   puts '4. Exit'
-  # end
-
-  # Entry point
-  # def start
-  #   loop do
-  #     display_menu
-  #     choice = gets.chomp.to_i
-
-  #     case choice
-  #     when 1
-  #       list_books
-  #     when 2
-  #       list_labels
-  #     when 3
-  #       create_book
-  #     when 4
-  #       puts 'Thanks for using the app'
-  #       break
-  #     else
-  #       puts 'Invalid option. Please choose a valid option.'
-  #     end
-  #   end
-  # end
 end
 
 class GameAuthorHandler
