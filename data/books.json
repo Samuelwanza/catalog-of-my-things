@@ -7,5 +7,19 @@
     "label_ids": [
       623
     ]
+  },
+  {
+    "id": "a79a5b56-13be-4420-ab15-e4f6b8545f33",
+    "publish_date": "12/10/2001",
+    "publisher": "publisher kkmanuu",
+    "cover_state": "good",
+    "label_id": 1550
+  },
+  {
+    "id": "d6880a3c-9888-45c1-b0b6-1cc839436110",
+    "publish_date": "10/23/2001",
+    "publisher": "Publisher grey willo",
+    "cover_state": "bad",
+    "label_id": 1560
   }
 ]
