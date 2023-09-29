@@ -111,6 +111,7 @@ Install this project with:
 - [ ] **[Search and Filter]**
 - [ ] **[Data Visualization]**
 - [ ] **[Sorting the data]**
+- [ ] **[Build api around it]**
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>

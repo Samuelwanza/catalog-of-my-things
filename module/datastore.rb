@@ -38,15 +38,14 @@ module LoadModule
   end
 
   def loadmusicalbums
-    return [] unless File.exist?('musicalbum.json')
+    return [] unless File.exist?('data/musicalbum.json')
 
-    data = File.read('musicalbum.json')
+    data = File.read('data/musicalbum.json')
     musicalbumdata = JSON.parse(data)
     musicalbumdata.map do |musicalbum|
-      musicalbum['publish_date'],
-                     = musicalbum['archived'],
-                     on_spotify = musicalbum['on_spotify'],
-                     newmusicalbum = Book.new(genre, author, label, publish_date, archived, on_spotify)
+      publish_date = musicalbum['publish_date']
+      on_spotify = musicalbum['on_spotify']
+      newmusicalbum = MusicAlbum.new(publish_date, on_spotify)
       newmusicalbum.id = musicalbum['id']
       @musicalbums.push(newmusicalbum)
     end
