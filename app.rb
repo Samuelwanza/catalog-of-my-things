@@ -148,8 +148,6 @@ class App
     end
   end
 
-
-
   # Display the main menu
   # def display_menu
   #   puts "\nPlease choose an option according to the numbers below:"
