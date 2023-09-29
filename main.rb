@@ -17,6 +17,7 @@ def display_menu
 end
 
 app = App.new
+app.load_data
 loop do
   display_menu
   option = gets.chomp.to_i
@@ -26,20 +27,21 @@ loop do
   when 2
   # your code here
   when 3
-    app.list_all_games
+    app.game_author_handler.list_all_games
   when 4
   # your code here
   when 5
   # your code here
   when 6
-    app.list_all_authors
+    app.game_author_handler.list_all_authors
   when 7
   # your code here
   when 8
   # your code here
   when 9
-    app.add_game
+    app.game_author_handler.add_game
   when 10
+    app.save_data
     puts 'Thanks for using Catalog of My Things app!'
     break
   else

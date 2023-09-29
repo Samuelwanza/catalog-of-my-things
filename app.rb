@@ -5,13 +5,12 @@ require_relative 'classes/game'
 require_relative 'classes/author'
 
 class App
-  attr_accessor :books, :labels, :games, :authors
+  attr_accessor :books, :labels, :games, :authors, :game_author_handler
 
   def initialize
     @books = []
     @labels = []
-    @games = []
-    @authors = []
+    @game_author_handler = GameAuthorHandler.new
   end
 
   # Add book
@@ -86,6 +85,56 @@ class App
     end
   end
 
+  # methods for perserving data
+
+  def save_data
+    @game_author_handler.save_games
+    @game_author_handler.save_authors
+  end
+
+  def load_data
+    @game_author_handler.load_games
+    @game_author_handler.load_authors
+  end
+
+  # Display the main menu
+  # def display_menu
+  #   puts "\nPlease choose an option according to the numbers below:"
+  #   puts '1. List all books'
+  #   puts '2. List all labels'
+  #   puts '3. Add a book'
+  #   puts '4. Exit'
+  # end
+
+  # Entry point
+  # def start
+  #   loop do
+  #     display_menu
+  #     choice = gets.chomp.to_i
+
+  #     case choice
+  #     when 1
+  #       list_books
+  #     when 2
+  #       list_labels
+  #     when 3
+  #       create_book
+  #     when 4
+  #       puts 'Thanks for using the app'
+  #       break
+  #     else
+  #       puts 'Invalid option. Please choose a valid option.'
+  #     end
+  #   end
+  # end
+end
+
+class GameAuthorHandler
+  def initialize
+    @games = []
+    @authors = []
+  end
+
   # methods for game :
   def ask_multiplayer_for_game
     print 'Is the game multiplayer [Y/N] : '
@@ -148,36 +197,48 @@ class App
     end
   end
 
-  # Display the main menu
-  # def display_menu
-  #   puts "\nPlease choose an option according to the numbers below:"
-  #   puts '1. List all books'
-  #   puts '2. List all labels'
-  #   puts '3. Add a book'
-  #   puts '4. Exit'
-  # end
+  def save_games
+    File.open('data/game.json', 'w') do |file|
+      game_data = @games.map do |game|
+        {
+          'publish_date' => game.publish_date,
+          'multiplayer' => game.multiplayer,
+          'last_played' => game.last_played_at
+        }
+      end
+      file.write(JSON.generate(game_data))
+    end
+  end
 
-  # Entry point
-  # def start
-  #   loop do
-  #     display_menu
-  #     choice = gets.chomp.to_i
+  def load_games
+    if File.exist?('data/game.json')
+      game_data = JSON.parse(File.read('data/game.json'))
+      @games = game_data.map { |game| Game.new(game['publish_date'], game['multiplayer'], game['last_played']) }
+    else
+      []
+    end
+  end
 
-  #     case choice
-  #     when 1
-  #       list_books
-  #     when 2
-  #       list_labels
-  #     when 3
-  #       create_book
-  #     when 4
-  #       puts 'Thanks for using the app'
-  #       break
-  #     else
-  #       puts 'Invalid option. Please choose a valid option.'
-  #     end
-  #   end
-  # end
+  def save_authors
+    File.open('data/author.json', 'w') do |file|
+      author_data = @authors.map do |author|
+        {
+          'first_name' => author.first_name,
+          'last_name' => author.last_name
+        }
+      end
+      file.write(JSON.generate(author_data))
+    end
+  end
+
+  def load_authors
+    if File.exist?('data/author.json')
+      author_data = JSON.parse(File.read('data/author.json'))
+      @authors = author_data.map { |author| Author.new(author['first_name'], author['last_name']) }
+    else
+      []
+    end
+  end
 end
 
 # Initialize and start the app
