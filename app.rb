@@ -85,7 +85,6 @@ class App
     end
   end
 
-
   # methods for perserving data
 
   def save_data
@@ -97,8 +96,6 @@ class App
     @game_author_handler.load_games
     @game_author_handler.load_authors
   end
-
-
 
   # Display the main menu
   # def display_menu
