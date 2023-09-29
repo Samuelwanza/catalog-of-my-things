@@ -6,9 +6,8 @@ class Genre
   end
 
   def add_item(item)
-    item.genre(self)
+    item.genre = self
     @items.push(item)
   end
-  attr_accessor :name, :id
-  attr_reader :items
+  attr_accessor :name, :id, :items
 end

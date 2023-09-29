@@ -2,8 +2,7 @@ require 'securerandom'
 require 'date'
 
 class Item
-  attr_accessor :genres, :authors, :labels, :publish_date, :archived
-  attr_reader :id
+  attr_accessor :genres, :authors, :labels, :publish_date, :archived, :id
 
   def initialize(publish_date, archived: false)
     @id = SecureRandom.uuid
