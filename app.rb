@@ -5,8 +5,10 @@ require_relative 'classes/game'
 require_relative 'classes/author'
 require_relative 'classes/genre'
 require_relative 'classes/musicalbum'
+require_relative 'module/datastore'
 
 class App
+  include LoadModule
   attr_accessor :books, :labels, :games, :authors, :game_author_handler
 
   def initialize
@@ -129,11 +131,15 @@ class App
   def save_data
     @game_author_handler.save_games
     @game_author_handler.save_authors
+    savegenre
+    savemusicalbums
   end
 
   def load_data
     @game_author_handler.load_games
     @game_author_handler.load_authors
+    loadgenre
+    loadmusicalbums
   end
 end
 
